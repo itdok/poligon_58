@@ -81,10 +81,10 @@
                             <input name="is_published"
                                    type="checkbox"
                                    class="form-check-input"
-                                   value="{{ $item->is_published }}"
+                                   value="1"
                                    @if($item->is_published)
                                    checked="checked"
-                                @endif
+                                   @endif
                             >
                             <label class="form-check-label" for="is_published">Опубликовано</label>
                         </div>
