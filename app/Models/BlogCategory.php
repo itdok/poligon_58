@@ -29,7 +29,7 @@ class BlogCategory extends Model
     /**
      * Подключить родительскую категорию
      *
-     * @return BlogCategory
+     * @return BlogCategory|\Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parentCategory()
     {
@@ -61,5 +61,24 @@ class BlogCategory extends Model
     public function isRoot()
     {
         return $this->id === BlogCategory::ROOTID;
+    }
+
+    /**
+     * Пример аксессуара
+     * @param  string $valueFromDB
+     * @return bool|false|mixed|string|string[]|null
+     */
+    public function getTitleAttribute($valueFromObject)
+    {
+        return mb_strtoupper($valueFromObject);
+    }
+
+    /**
+     * Пример мутатора
+     * @param string $incomingValue
+     */
+    public function setTitleAttribute($incomingValue)
+    {
+        $this->attributes['title'] = mb_strtolower($incomingValue);
     }
 }
