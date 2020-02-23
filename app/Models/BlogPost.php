@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string                     $excerpt
  * @property string                     $published_at
  * @property boolean                    $is_published
+ * @property int|string|null user_id
  */
 class BlogPost extends Model
 {
