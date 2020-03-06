@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property-reed BlogCategory  $parentCategory
  * @property-read string        $parentTitle
+ * @method static create(array|string|null $data)
+ * @method static make()
  */
 class BlogCategory extends Model
 {

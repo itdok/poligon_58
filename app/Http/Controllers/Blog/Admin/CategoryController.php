@@ -44,7 +44,7 @@ class CategoryController extends BaseController
      */
     public function create()
     {
-        $item = new BlogCategory();
+        $item = BlogCategory::make();
         $categoryList
             = $this->blogCategoryRepository->getForComboBox();
 
@@ -61,13 +61,8 @@ class CategoryController extends BaseController
     public function store(BlogCategoryCreateRequest $request)
     {
         $data   = $request->input();
-        // Ушло в обсервер
-//        if (empty($data['slug'])) {
-//            $data['slug'] = \Str::slug($data['title']);
-//        }
-
         // Создаст объект и добавит в db
-        $item = (new BlogCategory())->create($data);
+        $item = BlogCategory::create($data);
 
         if ($item) {
             return redirect()->route('blog.admin.categories.edit', [$item->id])
@@ -77,17 +72,6 @@ class CategoryController extends BaseController
                          ->withInput();
         }
     }
-
-//    /**
-//     * Display the specified resource.
-//     *
-//     * @param  int  $id
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function show($id)
-//    {
-//        dd(__METHOD__);
-//    }
 
     /**
      * Show the form for editing the specified resource.
@@ -100,27 +84,12 @@ class CategoryController extends BaseController
     {
         $item = $this->blogCategoryRepository->getEdit($id);
 
-        $v['title_before'] = $item->title;
-
-        $item->title = 'AnEyeOpeningGame Lilly 109mb';
-
-        $v['title_after'] = $item->title;
-        $v['getAttribute'] = $item->getAttribute('title');
-        $v['attributesToArray'] = $item->attributesToArray();
-        $v['attributes'] = $item->attributes['title'];
-        $v['getAttributeValue'] = $item->getAttributeValue('title');
-        $v['getMutatedAttributes'] = $item->getMutatedAttributes();
-        $v['hasGetMutator for title'] = $item->hasGetMutator('title');
-        $v['toArray'] = $item->toArray();
-
-        dd($v, $item);
-
         if (empty($item)) {
             abort(404);
         }
         $categoryList = $this->blogCategoryRepository->getForComboBox();
 
-        return  view('blog.admin.categories.edit',
+        return view('blog.admin.categories.edit',
             compact('item', 'categoryList'));
     }
 
@@ -134,6 +103,7 @@ class CategoryController extends BaseController
     public function update(BlogCategoryUpdateRequest $request, $id)
     {
         $item = $this->blogCategoryRepository->getEdit($id);
+
         if (empty($item)) {
             return back()
                 ->withErrors(['msg' => "Запись id=[{$id}] не найдена"])
@@ -141,11 +111,6 @@ class CategoryController extends BaseController
         }
 
         $data   = $request->all();
-        // Ушло в обсервер
-//        if (empty($data['slug'])) {
-//            $data['slug'] = \Str::slug($data['title']);
-//        }
-
         $result = $item->update($data); // тот же результат что и выше
 
         if ($result) {
@@ -158,15 +123,4 @@ class CategoryController extends BaseController
                 ->withInput();
         }
     }
-
-//    /**
-//     * Remove the specified resource from storage.
-//     *
-//     * @param  int  $id
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function destroy($id)
-//    {
-//        dd(__METHOD__);
-//    }
 }
